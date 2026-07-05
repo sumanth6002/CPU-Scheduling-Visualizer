@@ -1,5 +1,5 @@
 /**
- * CPU Scheduling Algorithm Visualizer
+ * Cpu-Scheduling-Visualizer
  */
 
 const PROCESS_COLORS = [  '#3d8bfd', '#3ecf8e', '#e8a838', '#e5534b', '#a371f7',
@@ -970,10 +970,12 @@ function initTooltips() {  let timeout;
   });
 
   document.addEventListener('mouseout', (e) => {
-    if (e.target.closest('[data-tooltip]')) {
-      clearTimeout(timeout);
-      DOM.tooltip.hidden = true;
-    }
+    const target = e.target.closest('[data-tooltip]');
+    if (!target) return;
+    const related = e.relatedTarget;
+    if (related && target.contains(related)) return;
+    clearTimeout(timeout);
+    DOM.tooltip.hidden = true;
   });
 }
 
@@ -1078,6 +1080,7 @@ function bindEvents() {  DOM.algorithmSelect.addEventListener('change', (e) => {
         e.preventDefault();
         if (!state.simulation && !prepareSimulation()) return;
         if (!stepSimulation()) completeSimulation();
+        else updateSimStatus('ready');
         break;
       case 'escape':
         resetSimulation();
@@ -1096,6 +1099,7 @@ function init() {
   renderAlgoInfo(state.algorithm);
   renderProcessList();
   updateSimStatus('idle');
+  setSimButtons({ running: false, hasSim: false });
 }
 
 document.addEventListener('DOMContentLoaded', init);
