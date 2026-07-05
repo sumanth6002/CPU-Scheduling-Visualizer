@@ -1,101 +1,184 @@
-# CPU Scheduler
+# CPU Scheduling Visualizer
 
-An interactive CPU scheduling algorithm visualizer built with vanilla HTML, CSS, and JavaScript. Designed for operating systems students and instructors who want to compare scheduling policies, inspect Gantt charts, and analyze performance metrics in real time.
+An interactive **CPU Scheduling Algorithm Visualizer** built using **HTML, CSS, and JavaScript**. The application simulates multiple CPU scheduling algorithms through animated Gantt charts, real-time process execution, ready queue visualization, and comprehensive performance metrics, making it a useful learning tool for Operating Systems students.
 
-![Screenshot placeholder](docs/screenshot.png)
+---
 
-> Add a screenshot to `docs/screenshot.png` before publishing.
+## Features
+
+- Interactive visualization of CPU scheduling algorithms
+- Animated Gantt Chart with process execution timeline
+- Live Ready Queue visualization
+- Real-time CPU execution state
+- Step-by-step simulation mode
+- Automatic simulation mode
+- Add, edit, and delete processes
+- Input validation for process data
+- Example dataset loader
+- Random process generator
+- Performance metrics calculation
+- Responsive developer-tool inspired interface
+- Keyboard shortcuts for quick simulation control
+
+---
 
 ## Supported Algorithms
 
 | Algorithm | Type |
 |-----------|------|
-| FCFS | Non-preemptive |
-| SJF | Non-preemptive |
-| SJF (SRTF) | Preemptive |
-| Priority | Non-preemptive |
-| Priority | Preemptive |
-| Round Robin | Preemptive (time quantum) |
+| First Come First Serve (FCFS) | Non-Preemptive |
+| Shortest Job First (SJF) | Non-Preemptive |
+| Shortest Remaining Time First (SRTF) | Preemptive |
+| Priority Scheduling | Non-Preemptive |
+| Priority Scheduling | Preemptive |
+| Round Robin | Preemptive |
 
-## Features
+---
 
-- Add, edit, and delete processes with validation
-- Animated Gantt chart with per-process colors and time ranges
-- Live ready queue and CPU state during simulation
-- Step-by-step or full-run simulation
-- Results table: completion, waiting, turnaround, and response times
-- Summary metrics: averages, CPU utilization, throughput
-- Algorithm reference panel with complexity and trade-offs
-- Example dataset and random process generator
-- Keyboard shortcuts: `R` run, `S` step, `Esc` reset simulation
+## Performance Metrics
+
+The simulator automatically calculates:
+
+- Completion Time
+- Waiting Time
+- Turnaround Time
+- Response Time
+- Average Waiting Time
+- Average Turnaround Time
+- Average Response Time
+- CPU Utilization
+- Throughput
+
+Priority scheduling assumes **lower priority values indicate higher priority**.
+
+---
+
+## Screenshots
+
+### Dashboard
+
+*(Add screenshot here)*
+
+### Simulation Running
+
+*(Add screenshot here)*
 
 ## Folder Structure
 
-```
-CPU scheduler sim/
-├── index.html        # Application markup
-├── style.css         # Layout and theme
-├── script.js         # Scheduling logic and UI
-├── test-scheduler.js # Algorithm verification (Node.js)
-└── README.md
+```text
+cpu-scheduling-visualizer/
+│
+├── index.html
+├── style.css
+├── script.js
+├── test-scheduler.js
+├── README.md
+└── docs/
+    └── screenshot.png
 ```
 
-## Technologies
+---
+
+## Technologies Used
 
 - HTML5
-- CSS3 (custom properties, Grid, Flexbox)
-- Vanilla JavaScript (ES6+)
-- [IBM Plex Sans / Mono](https://fonts.google.com/) via Google Fonts
+- CSS3
+- JavaScript (ES6)
+- CSS Grid
+- Flexbox
+- IBM Plex Sans
+- IBM Plex Mono
 
-No frameworks, build tools, or dependencies required.
+No frameworks, libraries, or build tools are used.
+
+---
 
 ## Run Locally
 
-1. Clone or download the repository.
-2. Open `index.html` in a modern browser (Chrome, Firefox, Edge, Safari).
+Clone the repository
 
-For live reload during development, use any static server:
+```bash
+git clone https://github.com/yourusername/cpu-scheduling-visualizer.git
+```
+
+Navigate to the project
+
+```bash
+cd cpu-scheduling-visualizer
+```
+
+Open the project
+
+Simply open **index.html** in your preferred browser.
+
+Or start a local server
 
 ```bash
 npx serve .
 ```
 
-### Run Tests
+---
 
-Algorithm correctness tests run in Node.js without a browser:
+## Running Tests
+
+Algorithm correctness tests can be executed using Node.js.
 
 ```bash
 node test-scheduler.js
 ```
 
+---
+
 ## Usage
 
-1. Add processes manually, load the example set, or generate random data.
-2. Select a scheduling algorithm (set time quantum for Round Robin).
-3. Click **Run** to animate the schedule or **Step** to advance one time unit.
-4. Review the Gantt chart, ready queue, and results table.
+1. Add processes manually or generate sample processes.
+2. Select a scheduling algorithm.
+3. Specify a time quantum when using Round Robin.
+4. Click **Run** to start the simulation or **Step** to execute one time unit at a time.
+5. Observe:
+   - Gantt Chart
+   - Ready Queue
+   - CPU State
+   - Performance Metrics
+6. Compare the behavior of different scheduling algorithms.
 
-## Metrics
+---
+
+## Metrics Formula
 
 | Metric | Formula |
 |--------|---------|
-| Waiting time | Completion − Arrival − Burst |
-| Turnaround time | Completion − Arrival |
-| Response time | First CPU time − Arrival |
-| CPU utilization | Total burst time ÷ Makespan × 100 |
-| Throughput | Process count ÷ Makespan |
+| Waiting Time | Completion − Arrival − Burst |
+| Turnaround Time | Completion − Arrival |
+| Response Time | First CPU Execution − Arrival |
+| CPU Utilization | (Total Burst Time / Makespan) × 100 |
+| Throughput | Total Processes / Makespan |
 
-Lower priority numbers represent higher priority.
+---
 
-## Future Improvements
+## Future Enhancements
 
-- Export results to CSV
+- Export simulation results as CSV
 - Side-by-side algorithm comparison
-- Aging for priority scheduling
-- Custom process color assignment
-- URL-based shareable configurations
-- Dark/light theme toggle
+- Multi-core CPU scheduling simulation
+- Priority aging
+- Timeline playback controls
+- Performance comparison charts
+- Import process data from CSV
+- Dark/Light theme switch
+
+---
+
+## Author
+
+**Sumanth P Shetty**
+
+GitHub: https://github.com/sumanth6002
+
+Repository: https://github.com/sumanth6002/Cpu-Scheduling-Visualizer
+
+---
 
 ## License
 
-MIT
+This project is licensed under the MIT License.
