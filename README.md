@@ -57,11 +57,11 @@ Priority scheduling assumes **lower priority values indicate higher priority**.
 
 ### Dashboard
 
-*(Add screenshot here)*
+![Dashboard](dashboard.png)
 
 ### Simulation Running
 
-*(Add screenshot here)*
+![Simulation](Simulation.png)
 
 ## Folder Structure
 
