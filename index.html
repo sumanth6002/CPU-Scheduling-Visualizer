@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CPU Scheduler</title>
+  <meta name="description" content="Interactive CPU scheduling algorithm visualizer — FCFS, SJF, Priority, and Round Robin with Gantt charts and metrics.">
+  <title>Cpu-Scheduling-Visualizer</title>
   <link rel="stylesheet" href="style.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -12,7 +13,7 @@
 <body>
   <header class="top-nav">
     <div class="nav-brand">
-      <h1>CPU Scheduler</h1>
+      <h1>Cpu-Scheduling-Visualizer</h1>
     </div>
     <div class="nav-status" id="simStatus" aria-live="polite">
       <span class="status-dot"></span>
@@ -52,7 +53,7 @@
           <button type="button" class="btn" id="btnStep" aria-label="Step simulation" data-tooltip="Advance one time unit (S)">
             <span class="btn-icon">⏭</span> Step
           </button>
-          <button type="button" class="btn" id="btnResetSim" aria-label="Reset simulation" data-tooltip="Reset simulation (Esc)">
+          <button type="button" class="btn" id="btnResetSim" disabled aria-label="Reset simulation" data-tooltip="Reset simulation (Esc)">
             <span class="btn-icon">↺</span> Reset Sim
           </button>
         </div>
@@ -159,6 +160,16 @@
           <p class="form-error hidden" id="formError" role="alert"></p>
           <button type="submit" class="btn btn-primary btn-full">Add Process</button>
         </form>
+        <footer class="card-footer">
+          <p>
+            <span class="footer-label">GitHub:</span>
+            <a href="https://github.com/sumanth6002" target="_blank" rel="noopener noreferrer">https://github.com/sumanth6002</a>
+          </p>
+          <p>
+            <span class="footer-label">Repository:</span>
+            <a href="https://github.com/sumanth6002/Cpu-Scheduling-Visualizer" target="_blank" rel="noopener noreferrer">https://github.com/sumanth6002/Cpu-Scheduling-Visualizer</a>
+          </p>
+        </footer>
       </section>
     </aside>
   </main>
