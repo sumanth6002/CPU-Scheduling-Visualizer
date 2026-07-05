@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CPU Scheduler</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header class="top-nav">
+    <div class="nav-brand">
+      <h1>CPU Scheduler</h1>
+    </div>
+    <div class="nav-status" id="simStatus" aria-live="polite">
+      <span class="status-dot"></span>
+      <span class="status-text">Idle</span>
+    </div>
+  </header>
+
+  <main class="dashboard">
+    <!-- Left Panel: Controls -->
+    <aside class="panel panel-left">
+      <section class="card">
+        <h2 class="card-title">Scheduling Algorithm</h2>
+        <div class="form-group">
+          <label for="algorithmSelect">Algorithm</label>
+          <select id="algorithmSelect">
+            <option value="fcfs">FCFS</option>
+            <option value="sjf-np">SJF — Non-Preemptive</option>
+            <option value="sjf-p">SJF — Preemptive (SRTF)</option>
+            <option value="priority-np">Priority — Non-Preemptive</option>
+            <option value="priority-p">Priority — Preemptive</option>
+            <option value="rr">Round Robin</option>
+          </select>
+        </div>
+        <div class="form-group hidden" id="quantumGroup">
+          <label for="timeQuantum">Time Quantum</label>
+          <input type="number" id="timeQuantum" min="1" value="2" data-tooltip="Time slice for Round Robin scheduling">
+          <p class="form-error hidden" id="quantumError" role="alert"></p>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2 class="card-title">Simulation</h2>
+        <div class="btn-group">
+          <button type="button" class="btn btn-primary" id="btnRun" aria-label="Run simulation" data-tooltip="Run full simulation (R)">
+            <span class="btn-icon">▶</span> Run
+          </button>
+          <button type="button" class="btn" id="btnStep" aria-label="Step simulation" data-tooltip="Advance one time unit (S)">
+            <span class="btn-icon">⏭</span> Step
+          </button>
+          <button type="button" class="btn" id="btnResetSim" aria-label="Reset simulation" data-tooltip="Reset simulation (Esc)">
+            <span class="btn-icon">↺</span> Reset Sim
+          </button>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2 class="card-title">Data</h2>
+        <div class="btn-group btn-group-stacked">
+          <button type="button" class="btn" id="btnLoadExample">Load Example</button>
+          <button type="button" class="btn" id="btnRandom">Generate Random</button>
+          <button type="button" class="btn btn-danger" id="btnResetAll">Reset All</button>
+        </div>
+      </section>
+
+      <section class="card algo-info-card">
+        <h2 class="card-title">Algorithm Info</h2>
+        <div id="algoInfo">
+          <p class="info-loading">Select an algorithm…</p>
+        </div>
+      </section>
+    </aside>
+
+    <!-- Center Panel: Gantt + Results -->
+    <section class="panel panel-center">
+      <div class="card gantt-card">
+        <div class="card-header">
+          <h2 class="card-title">Gantt Chart</h2>
+          <div class="gantt-legend" id="ganttLegend"></div>
+        </div>
+        <div class="gantt-container" id="ganttContainer">
+          <div class="gantt-empty">
+            <p>Add processes and run a simulation to see the Gantt chart.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="card ready-queue-card">
+        <h2 class="card-title">Ready Queue</h2>
+        <div class="ready-queue-display" id="readyQueueDisplay">
+          <span class="queue-empty">—</span>
+        </div>
+        <div class="current-process" id="currentProcessDisplay">
+          <span class="label">CPU:</span>
+          <span class="value" id="cpuProcess">IDLE</span>
+        </div>
+      </div>
+
+      <div class="card results-card">
+        <div class="card-header">
+          <h2 class="card-title">Results</h2>
+          <div class="metrics-summary" id="metricsSummary"></div>
+        </div>
+        <div class="table-wrapper">
+          <table class="results-table" id="resultsTable" aria-label="Scheduling results">
+            <thead>
+              <tr>
+                <th>Process</th>
+                <th>Arrival</th>
+                <th>Burst</th>
+                <th>Priority</th>
+                <th>Completion</th>
+                <th>Waiting</th>
+                <th>Turnaround</th>
+                <th>Response</th>
+              </tr>
+            </thead>
+            <tbody id="resultsBody">
+              <tr class="empty-row">
+                <td colspan="8">No results yet</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- Right Panel: Process List -->
+    <aside class="panel panel-right">
+      <section class="card">
+        <div class="card-header">
+          <h2 class="card-title">Processes</h2>
+          <span class="process-count" id="processCount">0</span>
+        </div>
+        <ul class="process-list" id="processList">
+          <li class="process-empty">No processes added</li>
+        </ul>
+      </section>
+
+      <section class="card">
+        <h2 class="card-title">Add Process</h2>
+        <form id="addProcessForm" novalidate>
+          <div class="form-group">
+            <label for="inputArrival">Arrival Time</label>
+            <input type="number" id="inputArrival" min="0" value="0" required>
+          </div>
+          <div class="form-group">
+            <label for="inputBurst">Burst Time</label>
+            <input type="number" id="inputBurst" min="1" value="1" required>
+          </div>
+          <div class="form-group">
+            <label for="inputPriority">Priority</label>
+            <input type="number" id="inputPriority" min="0" value="0" required data-tooltip="Lower value = higher priority">
+          </div>
+          <p class="form-error hidden" id="formError" role="alert"></p>
+          <button type="submit" class="btn btn-primary btn-full">Add Process</button>
+        </form>
+      </section>
+    </aside>
+  </main>
+
+  <!-- Edit Process Modal -->
+  <dialog class="modal" id="editModal">
+    <form id="editProcessForm" method="dialog">
+      <div class="modal-header">
+        <h3>Edit Process</h3>
+        <button type="button" class="modal-close" id="editModalClose" aria-label="Close">&times;</button>
+      </div>
+      <input type="hidden" id="editProcessId">
+      <div class="form-group">
+        <label for="editArrival">Arrival Time</label>
+        <input type="number" id="editArrival" min="0" required>
+      </div>
+      <div class="form-group">
+        <label for="editBurst">Burst Time</label>
+        <input type="number" id="editBurst" min="1" required>
+      </div>
+      <div class="form-group">
+        <label for="editPriority">Priority</label>
+        <input type="number" id="editPriority" min="0" required>
+      </div>
+      <p class="form-error hidden" id="editFormError" role="alert"></p>
+      <div class="modal-actions">
+        <button type="button" class="btn" id="editCancel">Cancel</button>
+        <button type="submit" class="btn btn-primary">Save</button>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- Tooltip element -->
+  <div class="tooltip" id="tooltip" role="tooltip" hidden></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
