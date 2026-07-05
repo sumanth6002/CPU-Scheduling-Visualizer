@@ -60,12 +60,16 @@ body {
   display: flex;
   align-items: baseline;
   gap: 12px;
+  min-width: 0;
 }
 
 .nav-brand h1 {
   font-size: 0.95rem;
   font-weight: 600;
   letter-spacing: -0.02em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .nav-status {
@@ -119,6 +123,38 @@ body {
 
 .panel-center {
   overflow: hidden;
+}
+
+.card-footer {
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px solid var(--border-subtle);
+  font-size: 0.65rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+  word-break: break-all;
+}
+
+.card-footer p {
+  margin-bottom: 4px;
+}
+
+.card-footer p:last-child {
+  margin-bottom: 0;
+}
+
+.card-footer .footer-label {
+  color: var(--text-secondary);
+}
+
+.card-footer a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.card-footer a:hover {
+  color: var(--accent-hover);
+  text-decoration: underline;
 }
 
 /* ── Cards ──────────────────────────────────────────────── */
